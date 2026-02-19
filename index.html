@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>You Already Know</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  background: url('uss.jpg') no-repeat center center;
+  background-size: 70%; /* makes photo smaller */
+  background-color: #f4f4f4; /* soft neutral background */
+  overflow-y: auto;
+  padding: 40px 0;
+}
+
+.container {
+  position: relative;
+  margin: 0 auto;
+  width: 95%;
+  max-width: 750px;
+  background: rgba(255, 255, 255, 0.92); /* light glass */
+  padding: 40px;
+  border-radius: 20px;
+  color: #111;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+h1 {
+  text-align: center;
+  font-weight: 300;
+  margin-bottom: 25px;
+  color: #222;
+}
+
+.clue {
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: #d63384;
+}
+
+.word-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+input {
+  width: 34px;
+  height: 34px;
+  margin: 3px;
+  text-align: center;
+  font-size: 18px;
+  text-transform: uppercase;
+  border-radius: 6px;
+  border: 1px solid #d63384;
+  background: white;
+  color: #111;
+  outline: none;
+}
+
+input.highlight {
+  border: 2px solid #ff4fa3;
+  background: #fff0f6;
+}
+
+button {
+  margin: 20px auto;
+  display: block;
+  padding: 10px 25px;
+  border-radius: 20px;
+  border: none;
+  background: #ff4fa3;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#message {
+  text-align: center;
+  margin-top: 15px;
+  color: #ff9ecf;
+  font-size: 16px;
+}
+</style>
+</head>
+
+<body>
+<div class="overlay"></div>
+
+<div class="container">
+  <h1>You already know.</h1>
+
+  <div id="crossword"></div>
+
+  <button onclick="checkAnswers()">Check</button>
+  <div id="message"></div>
+</div>
+
+<script>
+const words = [
+  "DZENUSIA",
+  "LUSIA",
+  "HOME",
+  "LUVU",
+  "EEE",
+  "KIEDYS",
+  "MOON",
+  "UWISH",
+  "SZYBKISANHAH",
+  "MENTOS",
+  "OHHH"
+];
+
+const clues = [
+  "The name that tells me everything between us is okay.",
+  "The name of our first baby.",
+  "For some, it's four walls and a roof. For me, it's you.",
+  "The way I say i love you.",
+  "What you type when you're thinking.",
+  "The word you use when you say 'Może ....'",
+  "My favorite thing in the sky.",
+  "What I say when I pretend not to agree with you.",
+  "The origin of SSH.",
+  "Your nickname for your favorite artist.",
+  "When I send you an edit of myself. you reply with..."
+];
+
+const highlightIndex = [6,0,1,2,0,4,1,0,0,5,3];
+
+const crossword = document.getElementById("crossword");
+
+words.forEach((word, rowIndex) => {
+
+  const clueDiv = document.createElement("div");
+  clueDiv.className = "clue";
+  clueDiv.innerText = clues[rowIndex];
+  crossword.appendChild(clueDiv);
+
+  const row = document.createElement("div");
+  row.className = "word-row";
+
+  for(let i=0; i<word.length; i++){
+    const input = document.createElement("input");
+    input.maxLength = 1;
+    input.dataset.row = rowIndex;
+    input.dataset.col = i;
+
+    if(i === highlightIndex[rowIndex]){
+      input.classList.add("highlight");
+    }
+
+    input.addEventListener("input", function() {
+      this.value = this.value.toUpperCase();
+      if(this.value && this.nextElementSibling){
+        this.nextElementSibling.focus();
+      }
+    });
+
+    input.addEventListener("keydown", function(e){
+      if(e.key === "Backspace" && !this.value && this.previousElementSibling){
+        this.previousElementSibling.focus();
+      }
+    });
+
+    row.appendChild(input);
+  }
+
+  crossword.appendChild(row);
+});
+
+function checkAnswers(){
+  const rows = document.querySelectorAll(".word-row");
+  let correct = true;
+
+  rows.forEach((row, index) => {
+    const inputs = row.querySelectorAll("input");
+    let formedWord = "";
+    inputs.forEach(input => {
+      formedWord += input.value.toUpperCase();
+    });
+    if(formedWord !== words[index]){
+      correct = false;
+    }
+  });
+
+  if(correct){
+    revealPassword();
+  } else {
+    document.getElementById("message").innerHTML = "try again <3";
+  }
+}
+
+function revealPassword(){
+  const highlights = document.querySelectorAll(".highlight");
+  const container = document.querySelector(".container");
+
+  let password = "";
+  highlights.forEach(letter => {
+    password += letter.value.toUpperCase();
+  });
+
+  container.innerHTML = `
+    <h1 style="font-weight:300;">${password}</h1>
+    <p style="color:#ff9ecf; text-align:center;">You already knew.</p>
+    <button id="continueBtn">Continue</button>
+  `;
+
+  document.getElementById("continueBtn").addEventListener("click", function(){
+    window.location.href = "bejbi.html"; // CHANGE to your real file name
+  });
+}
+</script>
+
+</body>
+</html>
