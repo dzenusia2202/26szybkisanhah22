@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy 26</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, #fffafc 0%, #ffeef6 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.letter {
+  background: white;
+  width: 90%;
+  max-width: 600px;
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 42px;
+  color: #ff4fa3;
+  margin-bottom: 30px;
+}
+
+.text {
+  font-size: 18px;
+  line-height: 1.8;
+  white-space: pre-line;
+  min-height: 200px;
+}
+
+.signature {
+  margin-top: 40px;
+  font-family: 'Great Vibes', cursive;
+  font-size: 32px;
+  color: #ff4fa3;
+}
+
+.playlist-btn {
+  margin-top: 40px;
+  padding: 12px 25px;
+  background: #ff6fb5;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s ease;
+  display: none;
+}
+
+.playlist-btn:hover {
+  background: #ff4fa3;
+}
+</style>
+</head>
+
+<body>
+
+<div class="letter">
+  <h1>Happy 26th</h1>
+  <div class="text" id="typeText"></div>
+  <div class="signature">– dzenusia</div>
+  <button class="playlist-btn" id="playlistBtn">26 songs for 26</button>
+</div>
+
+<script>
+
+const message = `Hello, baby.
+
+I heard someone is turning 26 today.
+
+I didn’t want this to be loud.
+I just wanted it to be yours.
+
+Twenty-six things I see.
+Twenty-six songs that feel like you.
+Twenty-six quiet reminders that you matter.
+
+You don’t always see yourself the way I do.
+
+But I hope today — even just for a moment —
+you felt understood.
+
+Happy 26th.`;
+
+const textElement = document.getElementById("typeText");
+const playlistBtn = document.getElementById("playlistBtn");
+
+let index = 0;
+const speed = 35;
+
+function typeWriter() {
+  if (index < message.length) {
+    textElement.innerHTML += message.charAt(index);
+    index++;
+    setTimeout(typeWriter, speed);
+  } else {
+    playlistBtn.style.display = "inline-block";
+  }
+}
+
+typeWriter();
+
+playlistBtn.addEventListener("click", function(){
+  window.open("https://open.spotify.com/playlist/35NiMXu9iTcyq3wFkGY0DO?si=723ea721ae004407&pt=431d926d30c659206b60b43aba38b206", "_blank");
+});
+
+</script>
+
+</body>
+</html>
